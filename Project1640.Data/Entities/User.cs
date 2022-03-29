@@ -17,5 +17,10 @@ namespace Project1640.Data.Entities
         public DateTime DOB { get; set; }
         [PersonalData]
         public string Gender { get; set; }
+
+        public List<Idea> Ideas { get; set; }
+        public List<Reaction> Reactions { get; set; }
+        public List<Cmt> Cmts { get; set; }
+        public List<View> Views { get; set; }
     }
 }

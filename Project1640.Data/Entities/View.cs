@@ -8,9 +8,9 @@ namespace Project1640.Data.Entities
 {
     public class View
     {
-        public int Id { get; set; }
+        public int ViewId { get; set; }
         public DateTime LastVisitedDate { get; set; }
-        public Guid UserId { get; set; }
+        public int UserId { get; set; }
         public int IdeaId { get; set; }
 
         public User User { get; set; }

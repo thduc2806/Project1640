@@ -19,6 +19,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Project1640.Data;
+using Project1640.Api.Extensions.ServiceCollection;
+using System.Text.Json.Serialization;
+using System.Text.Json;
+using Project1640.Service.Ideas;
 
 namespace Project1640.Api
 {
@@ -34,74 +39,12 @@ namespace Project1640.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<Project1640DbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("Project1640Db")));
-            services.AddIdentity<User, Roles>()
-                .AddEntityFrameworkStores<Project1640DbContext>()
-                .AddDefaultTokenProviders();
-            services.AddTransient<UserManager<User>, UserManager<User>>();
-            services.AddTransient<SignInManager<User>, SignInManager<User>>();
-            services.AddTransient<RoleManager<Roles>, RoleManager<Roles>>();
-            services.AddTransient<IUserService, UserService>();
+            services.AddAuthenticationRegister();
+            services.AddDataAccessorLayer(Configuration);
             services.AddControllers();
-            services.AddControllersWithViews();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Project1640.Api", Version = "v1" });
-                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-                {
-                    Description = @"JWT Authorization header using the Bearer scheme. \r\n\r\n
-                      Enter 'Bearer' [space] and then your token in the text input below.
-                      \r\n\r\nExample: 'Bearer 12345abcdef'",
-                    Name = "Authorization",
-                    In = ParameterLocation.Header,
-                    Type = SecuritySchemeType.ApiKey,
-                    Scheme = "Bearer"
-                });
+            services.AddSwagger();
+            services.AddTransient<IIdeaService, IdeaService>();
 
-                c.AddSecurityRequirement(new OpenApiSecurityRequirement()
-                  {
-                    {
-                      new OpenApiSecurityScheme
-                      {
-                        Reference = new OpenApiReference
-                          {
-                            Type = ReferenceType.SecurityScheme,
-                            Id = "Bearer"
-                          },
-                          Scheme = "oauth2",
-                          Name = "Bearer",
-                          In = ParameterLocation.Header,
-                        },
-                        new List<string>()
-                      }
-                    });
-            });
-            string issuer = Configuration.GetValue<string>("Tokens:Issuer");
-            string signingKey = Configuration.GetValue<string>("Tokens:Key");
-            byte[] signingKeyBytes = System.Text.Encoding.UTF8.GetBytes(signingKey);
-
-            services.AddAuthentication(opt =>
-            {
-                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(options =>
-            {
-                options.RequireHttpsMetadata = false;
-                options.SaveToken = true;
-                options.TokenValidationParameters = new TokenValidationParameters()
-                {
-                    ValidateIssuer = true,
-                    ValidIssuer = issuer,
-                    ValidateAudience = true,
-                    ValidAudience = issuer,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    ClockSkew = System.TimeSpan.Zero,
-                    IssuerSigningKey = new SymmetricSecurityKey(signingKeyBytes)
-                };
-            });
 
         }
 
@@ -117,8 +60,8 @@ namespace Project1640.Api
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseAuthentication();
             app.UseRouting();
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

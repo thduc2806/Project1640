@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Project1640.Data.Entities
 {
-    public class User : IdentityUser<Guid>
+    public class User : IdentityUser<int>
     {
         [PersonalData]
         public string FirstName { get; set; }

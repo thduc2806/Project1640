@@ -8,7 +8,7 @@ namespace Project1640.Data.Entities
 {
     public class File
     {
-        public int Id { get; set; }
+        public int FileId { get; set; }
         public string FilePath { get; set; }
         public DateTime CreatedDate { get; set; }
         public int IdeaId { get; set; }

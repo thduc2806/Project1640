@@ -8,7 +8,7 @@ namespace Project1640.Data.Entities
 {
     public class Submission
     {
-        public int Id { get; set; }
+        public int SubmissionId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public DateTime ClosureDate { get; set; }

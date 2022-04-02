@@ -8,11 +8,11 @@ namespace Project1640.Data.Entities
 {
     public class Cmt
     {
-        public int Id { get; set; }
+        public int CmtId { get; set; }
         public string content { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime LastModifiedDate { get; set; }
-        public Guid UserId { get; set; }
+        public int UserId { get; set; }
         public int IdeaId { get; set; }
 
         public User User { get; set; }

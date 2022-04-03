@@ -55,5 +55,18 @@ namespace Project1640.Api.Controllers
             return CreatedAtAction(nameof(GetIdeaById), new { id = rs }, idea);
         }
 
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateIdea([FromBody] UpdateIdeaRequest request, int id)
+		{
+            var idea = _context.Ideas.Find(id);
+            idea.Title = request.Title;
+            idea.Description = request.Description;
+            idea.Content = request.Content;
+            idea.LastModifiedDate = request.LastModifiedDate;
+
+            await _context.SaveChangesAsync();
+            return Ok("Update Successed");
+		}
+
     }
 }

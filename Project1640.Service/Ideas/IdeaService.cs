@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Project1640.Data.EF;
 using Project1640.Data.Entities;
+using Project1640.Dto.Exceptions;
 using Project1640.Dto.Ideas;
 using System;
 using System.Collections.Generic;
@@ -19,20 +20,27 @@ namespace Project1640.Service.Ideas
         }
         public async Task<int> CreateIdea(CreateIdeaRequest request)
         {
-            var idea = new Idea()
+            var submission = await _context.Submissions.FirstOrDefaultAsync(s => s.SubmissionId == request.SubmissionId);
+
+            if (submission.ClosureDate >= DateTime.Now)
             {
-                Title = request.Title,
-                Description = request.Description,
-                Content = request.Content,
-                CreatedDate = DateTime.Now,
-                LastModifiedDate = request.LastModifiedDate,
-                CategoryId = request.CategoryId,
-                UserId = request.UserId,
-                SubmissionId = request.SubmissionId,
-            };
-            _context.Ideas.Add(idea);
-            await _context.SaveChangesAsync();
-            return idea.IdeaId;
+                var idea = new Idea()
+                {
+                    Title = request.Title,
+                    Description = request.Description,
+                    Content = request.Content,
+                    CreatedDate = DateTime.Now,
+                    LastModifiedDate = request.LastModifiedDate,
+                    CategoryId = request.CategoryId,
+                    UserId = request.UserId,
+                    SubmissionId = request.SubmissionId,
+                };
+                _context.Ideas.Add(idea);
+                await _context.SaveChangesAsync();
+                return idea.IdeaId;
+            }
+
+            throw new Project1640Exception("Time has expired");
         }
 
         public async Task<IdeaDto> GetIdeaById(int ideaId)

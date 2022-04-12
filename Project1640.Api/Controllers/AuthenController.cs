@@ -30,7 +30,7 @@ namespace Project1640.Api.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Login([FromForm] LoginDto request)
+        public async Task<IActionResult> Login(LoginDto request)
         {
             if (ModelState.IsValid)
             {

@@ -9,9 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project1640.Data", "Project
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project1640.Application", "Project1640.Application\Project1640.Application.csproj", "{7DAC141A-19F6-4597-8A29-B9996958A409}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project1640.Dto", "Project1640.Dto\Project1640.Dto.csproj", "{9026EA45-EE5E-4BBE-A671-9F02BBB5E05C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project1640.Dto", "Project1640.Dto\Project1640.Dto.csproj", "{9026EA45-EE5E-4BBE-A671-9F02BBB5E05C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project1640.Service", "Project1640.Service\Project1640.Service.csproj", "{F5697D7E-F94B-41A8-B851-A6BFE1DCBF07}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project1640.Service", "Project1640.Service\Project1640.Service.csproj", "{F5697D7E-F94B-41A8-B851-A6BFE1DCBF07}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApp", "WebApp\WebApp.csproj", "{F7D1F089-60BE-48B4-8820-20B68C02041E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{F5697D7E-F94B-41A8-B851-A6BFE1DCBF07}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5697D7E-F94B-41A8-B851-A6BFE1DCBF07}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F5697D7E-F94B-41A8-B851-A6BFE1DCBF07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7D1F089-60BE-48B4-8820-20B68C02041E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7D1F089-60BE-48B4-8820-20B68C02041E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7D1F089-60BE-48B4-8820-20B68C02041E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7D1F089-60BE-48B4-8820-20B68C02041E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -11,7 +11,7 @@ namespace Project1640.Dto.Users
     {
         public LoginValidator()
         {
-            RuleFor(x => x.Email).NotEmpty().WithMessage("Username required");
+            RuleFor(x => x.Username).NotEmpty().WithMessage("Username required");
             RuleFor(x => x.Password).NotEmpty().WithMessage("Password required")
                 .MinimumLength(3).WithMessage("Password less than 6 characters");
 

@@ -9,9 +9,8 @@ namespace Project1640.Dto.Users
 {
     public class LoginDto
     {
-        [Required]
-        public string Email { get; set; }
-        [Required]
+        public string Username { get; set; }
         public string Password { get; set; }
-    }
+		public bool RememberMe { get; set; }
+	}
 }

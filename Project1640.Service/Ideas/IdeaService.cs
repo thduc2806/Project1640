@@ -1,11 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Project1640.Data.EF;
 using Project1640.Data.Entities;
 using Project1640.Dto.Exceptions;
+using Project1640.Dto.Files;
 using Project1640.Dto.Ideas;
+using Project1640.Service.Common;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,11 +19,45 @@ namespace Project1640.Service.Ideas
     public class IdeaService : IIdeaService
     {
         private readonly Project1640DbContext _context;
-        public IdeaService(Project1640DbContext context)
+        private readonly IStorageService _storageService;
+        private const string USER_CONTENT_FOLDER_NAME = "user-content";
+        public IdeaService(Project1640DbContext context, IStorageService storageService)
         {
             _context = context;
+            _storageService = storageService;
         }
-        public async Task<int> CreateIdea(CreateIdeaRequest request)
+
+		public async Task<int> AddImage(int productId, FilesAddRequest request)
+		{
+            var file = new Data.Entities.File()
+            {
+                CreatedDate = DateTime.Now,
+            };
+
+            if (request.Files != null)
+			{
+                file.FilePath = await this.SaveFile(request.Files);
+			}
+            _context.Files.Add(file);
+            await _context.SaveChangesAsync();
+            return file.FileId;
+		}
+		public async Task<FilesDto> GetFileById(int fileId)
+		{
+            var files = await _context.Files.FindAsync(fileId);
+            if (files == null)
+                throw new Project1640Exception("Can not find Files");
+            var fileVm = new FilesDto()
+            {
+                FileId = files.FileId,
+                IdeaId = files.IdeaId,
+                FilePath = files.FilePath,
+                CreatedDate = DateTime.Now,
+            };
+            return fileVm;
+        }
+
+		public async Task<int> CreateIdea(CreateIdeaRequest request)
         {
             var submission = await _context.Submissions.FirstOrDefaultAsync(s => s.SubmissionId == request.SubmissionId);
 
@@ -30,10 +69,18 @@ namespace Project1640.Service.Ideas
                     Description = request.Description,
                     Content = request.Content,
                     CreatedDate = DateTime.Now,
-                    LastModifiedDate = request.LastModifiedDate,
+                    LastModifiedDate = DateTime.Now,
                     CategoryId = request.CategoryId,
                     UserId = request.UserId,
                     SubmissionId = request.SubmissionId,
+                };
+                idea.Files = new List<Data.Entities.File>()
+                {
+                    new Data.Entities.File
+                    {
+                        CreatedDate = DateTime.Now,
+                        FilePath = await this.SaveFile(request.ThumbnailFile),
+                    }
                 };
                 _context.Ideas.Add(idea);
                 await _context.SaveChangesAsync();
@@ -49,6 +96,7 @@ namespace Project1640.Service.Ideas
             var user = await _context.Users.Where(x => idea.UserId == x.Id).FirstOrDefaultAsync();
             var category = await _context.Categories.Where(x => idea.CategoryId == x.CategoryId).FirstOrDefaultAsync();
             var submission = await _context.Submissions.Where(x => idea.SubmissionId == x.SubmissionId).FirstOrDefaultAsync();
+            var file = await _context.Files.Where(x => idea.IdeaId == x.IdeaId).FirstOrDefaultAsync();
             var ideaView = new IdeaDto()
             {
                 IdeaId = idea.IdeaId,
@@ -60,9 +108,19 @@ namespace Project1640.Service.Ideas
                 Category = category.Name,
                 UserName = user.UserName,
                 Submission = submission.Name,
+                FilePath = file.FilePath
                 
             };
             return ideaView;
         }
-    }
+
+        private async Task<string> SaveFile(IFormFile file)
+        {
+            var originalFileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+            var fileName = $"{Guid.NewGuid()}{Path.GetExtension(originalFileName)}";
+            await _storageService.SaveFileAsync(file.OpenReadStream(), fileName);
+            return "/" + USER_CONTENT_FOLDER_NAME + "/" + fileName;
+        }
+
+	}
 }

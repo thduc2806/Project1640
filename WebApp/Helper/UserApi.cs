@@ -26,14 +26,14 @@ namespace WebApp.Helper
 			_httpClientFactory = httpClientFactory;
 		}
 
-		public async Task<ApiResult<string>> Authenticate(LoginDto request)
+		public async Task<ApiResult<string>> Login(LoginDto request)
 		{
 			var json = JsonConvert.SerializeObject(request);
 			var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
 			var client = _httpClientFactory.CreateClient();
 			client.BaseAddress = new Uri(_configuration["BaseAddress"]);
-			var response = await client.PostAsync("/api/Authen", httpContent);
+			var response = await client.PostAsync("/api/authen", httpContent);
 			if (response.IsSuccessStatusCode)
 			{
 				return JsonConvert.DeserializeObject<ApiSuccessedResult<string>>(await response.Content.ReadAsStringAsync());

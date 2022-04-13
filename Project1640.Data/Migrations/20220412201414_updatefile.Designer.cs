@@ -10,8 +10,8 @@ using Project1640.Data.EF;
 namespace Project1640.Data.Migrations
 {
     [DbContext(typeof(Project1640DbContext))]
-    [Migration("20220330092645_addUser")]
-    partial class addUser
+    [Migration("20220412201414_updatefile")]
+    partial class updatefile
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -203,21 +203,24 @@ namespace Project1640.Data.Migrations
 
             modelBuilder.Entity("Project1640.Data.Entities.File", b =>
                 {
-                    b.Property<int>("IdeaId")
+                    b.Property<int>("FileId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("FileId")
-                        .HasColumnType("int");
 
                     b.Property<string>("FilePath")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("IdeaId");
+                    b.Property<int>("IdeaId")
+                        .HasColumnType("int");
+
+                    b.HasKey("FileId");
+
+                    b.HasIndex("IdeaId");
 
                     b.ToTable("Files");
                 });
@@ -401,12 +404,12 @@ namespace Project1640.Data.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e8410ac2-c99e-4868-90a0-cf0fed07fc24",
+                            ConcurrencyStamp = "ef08a900-ff5d-4b35-a9d4-985d0f8ea8b9",
                             DOB = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "admin@mail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAEAACcQAAAAEFqwQbrAP2sWuD7D2GB6r4tuWRxUviDRPkbZnwMUDpfuU70lGcniXQMfTuUIgoGlhw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPOvolP3GPlK0nZUCSh5M870ipazp1hw/ygiZnJbz5/AdBpg4oOlzWKcdfVPeLi4bw==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "admin"
@@ -415,12 +418,12 @@ namespace Project1640.Data.Migrations
                         {
                             Id = 2,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8f62c670-19ab-4988-950b-566eeef534f8",
+                            ConcurrencyStamp = "88d7a838-3ec1-4590-a181-351e2f7d482d",
                             DOB = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "admin2@mail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAEAACcQAAAAEFwJZEZr3QanT7BiYbqD2437CWgL74Fvnza8wLuidmSsICdqAER4GExfPk4YtpQ9TA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAECMP9AhoFotgsP+hJukGIKEbmkar27R0KFDLxBX0+eVUG+IesyrbB3h5qjdO1P9cbg==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "admin2"

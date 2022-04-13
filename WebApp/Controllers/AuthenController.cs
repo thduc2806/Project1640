@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Project1640.Dto.Extensions;
 using Project1640.Dto.Users;
 using System;
 using System.Collections.Generic;
@@ -43,10 +44,10 @@ namespace WebApp.Controllers
             {
                 return View(request);
             }
-            var result = await _userAPI.Authenticate(request);
+            var result = await _userAPI.Login(request);
             if (result.ResultObj == null)
             {
-                ModelState.AddModelError("", result.Message = "Login fail");
+                //ModelState.AddModelError("", result.Message = "Login fail");
                 return View();
             }
             var userPrincipal = this.ValidateToken(result.ResultObj);
@@ -64,22 +65,31 @@ namespace WebApp.Controllers
             return RedirectToAction("Privacy", "Home");
         }
 
-        private ClaimsPrincipal ValidateToken(string jwtToken)
+        [HttpPost]
+        public async Task<IActionResult> Logout()
         {
-            IdentityModelEventSource.ShowPII = true;
-
-            SecurityToken validatedToken;
-            TokenValidationParameters validationParameters = new TokenValidationParameters();
-
-            validationParameters.ValidateLifetime = true;
-
-            validationParameters.ValidAudience = _configuration["Jwt:Issuer"];
-            validationParameters.ValidIssuer = _configuration["Jwt:Issuer"];
-            validationParameters.IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
-
-            ClaimsPrincipal principal = new JwtSecurityTokenHandler().ValidateToken(jwtToken, validationParameters, out validatedToken);
-
-            return principal;
+            await HttpContext.SignOutAsync(
+                        CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Login", "Authen");
         }
+
+
+        private ClaimsPrincipal ValidateToken(string jwtToken)
+            {
+                IdentityModelEventSource.ShowPII = true;
+
+                SecurityToken validatedToken;
+                TokenValidationParameters validationParameters = new TokenValidationParameters();
+
+                validationParameters.ValidateLifetime = true;
+
+                validationParameters.ValidAudience = _configuration["Jwt:Issuer"];
+                validationParameters.ValidIssuer = _configuration["Jwt:Issuer"];
+                validationParameters.IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+
+                ClaimsPrincipal principal = new JwtSecurityTokenHandler().ValidateToken(jwtToken, validationParameters, out validatedToken);
+
+                return principal;
+            }
     }
 }

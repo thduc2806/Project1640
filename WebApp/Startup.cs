@@ -7,12 +7,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using FluentValidation.AspNetCore;
 using Project1640.Data.EF;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebApp.Helper;
+using Project1640.Dto.Users;
 
 namespace WebApp
 {
@@ -30,7 +32,8 @@ namespace WebApp
         {
             services.AddDbContext<Project1640DbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DbConnection")));
-            services.AddControllersWithViews();
+            services.AddControllersWithViews()
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<LoginValidator>());
             services.AddHttpClient();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
             	.AddCookie(options =>
@@ -38,6 +41,10 @@ namespace WebApp
             		options.LoginPath = "/Authen/Login";
             		options.AccessDeniedPath = "/User/Forbidden/";
             	});
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+            });
             services.AddTransient<IUserApi, UserApi>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
@@ -62,6 +69,7 @@ namespace WebApp
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

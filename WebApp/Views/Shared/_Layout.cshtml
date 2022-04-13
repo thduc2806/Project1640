@@ -1,5 +1,4 @@
-﻿!DOCTYPE html>
-<html lang="en">
+﻿<html lang="en">
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -166,18 +165,25 @@
                     </div><!-- dropdown-menu-right -->
                 </div><!-- dropdown -->
                 <div class="dropdown dropdown-c">
-                    <a href="#" class="logged-user" data-toggle="dropdown">
-                        <img src="http://via.placeholder.com/500x500" alt="">
-                        <span>Katherine</span>
+                        <a href="#" class="logged-user" data-toggle="dropdown">
+                        @if (User.Identity.IsAuthenticated)
+			            {
+                            <img src="http://via.placeholder.com/500x500" alt="">
+                            <span>Hello @User.Identity.Name</span>
+						}
+						else
+			            {
+                            <span></span>
+			            }
                         <i class="fa fa-angle-down"></i>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
                         <nav class="nav">
-                            <a href="page-profile.html" class="nav-link"><i class="icon ion-person"></i> View Profile</a>
-                            <a href="page-edit-profile.html" class="nav-link"><i class="icon ion-compose"></i> Edit Profile</a>
-                            <a href="page-activity.html" class="nav-link"><i class="icon ion-ios-bolt"></i> Activity Log</a>
-                            <a href="page-settings.html" class="nav-link"><i class="icon ion-ios-gear"></i> Account Settings</a>
-                            <a href="page-signin.html" class="nav-link"><i class="icon ion-forward"></i> Sign Out</a>
+								<a href="page-profile.html" class="nav-link"><i class="icon ion-person"></i> View Profile</a>
+								<a href="page-edit-profile.html" class="nav-link"><i class="icon ion-compose"></i> Edit Profile</a>
+								<a href="page-activity.html" class="nav-link"><i class="icon ion-ios-bolt"></i> Activity Log</a>
+								<a href="page-settings.html" class="nav-link"><i class="icon ion-ios-gear"></i> Account Settings</a>
+								<form asp-action="Logout" asp-controller="Authen"><button style="border: none; background-color: white" type="submit" class="nav-link"><i class="icon ion-forward"></i> Sign Out</button></form>
                         </nav>
                     </div><!-- dropdown-menu -->
                 </div><!-- dropdown -->

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Project1640.Data.EF;
 using Project1640.Data.Entities;
+using Project1640.Dto.Files;
 using Project1640.Dto.Ideas;
 using Project1640.Service.Ideas;
 using System;
@@ -31,7 +32,11 @@ namespace Project1640.Api.Controllers
                 Title = s.Title,
                 Description = s.Description,
                 CreatedDate = s.CreatedDate,
-                LastModifiedDate = s.LastModifiedDate
+                LastModifiedDate = s.LastModifiedDate,
+                SubmissionId = s.SubmissionId,
+                CategoryId = s.CategoryId,
+                UserId = s.UserId,
+                Files = s.Files,
             }).ToList();
             return idea;
         }
@@ -67,6 +72,31 @@ namespace Project1640.Api.Controllers
             await _context.SaveChangesAsync();
             return Ok("Update Successed");
 		}
+
+        [HttpPost("{ideaId}/files")]
+        public async Task<IActionResult> CreateImage(int ideaId, [FromForm] FilesAddRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var fileId = await _ideaService.AddImage(ideaId, request);
+            if (fileId == 0)
+                return BadRequest();
+
+            var file = await _ideaService.GetFileById(fileId);
+
+            return CreatedAtAction(nameof(GetFileById), new { FileId = fileId }, file);
+        }
+
+        [HttpGet("{ideaId}/files/{fileId}")]
+        public async Task<IActionResult> GetFileById(int ideaId, int fileId)
+        {
+            var file = await _ideaService.GetFileById(fileId);
+            if (file == null)
+                return BadRequest("Cannot find Idea");
+            return Ok(file);
+        }
 
     }
 }

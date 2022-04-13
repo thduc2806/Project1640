@@ -75,8 +75,8 @@ namespace Project1640.Data.EF
             {
                 entity.ToTable("Files");
                 entity.Property(c => c.FilePath).IsRequired(true);
-                entity.HasKey(a => a.IdeaId);
-                entity.Property(a => a.IdeaId).ValueGeneratedOnAdd();
+                entity.HasKey(a => a.FileId);
+                entity.Property(a => a.FileId).ValueGeneratedOnAdd();
                 entity.HasOne<Idea>(am => am.Idea).WithMany(u => u.Files).HasForeignKey(am => am.IdeaId).OnDelete(DeleteBehavior.NoAction);
             });
 

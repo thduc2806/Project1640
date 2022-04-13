@@ -9,7 +9,7 @@ namespace WebApp.Helper
 {
     public interface IUserApi
     {
-        Task<ApiResult<string>> Authenticate(LoginDto request);
+        Task<ApiResult<string>> Login(LoginDto request);
 
     }
 }

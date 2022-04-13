@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Project1640.Data.Migrations
 {
-    public partial class addUser : Migration
+    public partial class updatefile : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -254,14 +254,15 @@ namespace Project1640.Data.Migrations
                 name: "Files",
                 columns: table => new
                 {
-                    IdeaId = table.Column<int>(type: "int", nullable: false),
-                    FileId = table.Column<int>(type: "int", nullable: false),
+                    FileId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     FilePath = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IdeaId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Files", x => x.IdeaId);
+                    table.PrimaryKey("PK_Files", x => x.FileId);
                     table.ForeignKey(
                         name: "FK_Files_Ideas_IdeaId",
                         column: x => x.IdeaId,
@@ -323,12 +324,12 @@ namespace Project1640.Data.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "DOB", "Email", "EmailConfirmed", "FirstName", "Gender", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { 1, 0, "e8410ac2-c99e-4868-90a0-cf0fed07fc24", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin@mail.com", false, null, null, null, false, null, null, null, "AQAAAAEAACcQAAAAEFqwQbrAP2sWuD7D2GB6r4tuWRxUviDRPkbZnwMUDpfuU70lGcniXQMfTuUIgoGlhw==", null, false, null, false, "admin" });
+                values: new object[] { 1, 0, "ef08a900-ff5d-4b35-a9d4-985d0f8ea8b9", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin@mail.com", false, null, null, null, false, null, null, null, "AQAAAAEAACcQAAAAEPOvolP3GPlK0nZUCSh5M870ipazp1hw/ygiZnJbz5/AdBpg4oOlzWKcdfVPeLi4bw==", null, false, null, false, "admin" });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "DOB", "Email", "EmailConfirmed", "FirstName", "Gender", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { 2, 0, "8f62c670-19ab-4988-950b-566eeef534f8", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin2@mail.com", false, null, null, null, false, null, null, null, "AQAAAAEAACcQAAAAEFwJZEZr3QanT7BiYbqD2437CWgL74Fvnza8wLuidmSsICdqAER4GExfPk4YtpQ9TA==", null, false, null, false, "admin2" });
+                values: new object[] { 2, 0, "88d7a838-3ec1-4590-a181-351e2f7d482d", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin2@mail.com", false, null, null, null, false, null, null, null, "AQAAAAEAACcQAAAAECMP9AhoFotgsP+hJukGIKEbmkar27R0KFDLxBX0+eVUG+IesyrbB3h5qjdO1P9cbg==", null, false, null, false, "admin2" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cmts_IdeaId",
@@ -339,6 +340,11 @@ namespace Project1640.Data.Migrations
                 name: "IX_Cmts_UserId",
                 table: "Cmts",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Files_IdeaId",
+                table: "Files",
+                column: "IdeaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Ideas_CategoryId",

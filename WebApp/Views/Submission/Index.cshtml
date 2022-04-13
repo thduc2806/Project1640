@@ -1,0 +1,39 @@
+﻿{
+    ViewData["Title"] = "Idea";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="slim-pageheader">
+    <ol class="breadcrumb slim-breadcrumb">
+        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Categories</li>
+    </ol>
+    <h6 class="slim-pagetitle">Categories</h6>
+</div><!-- slim-pageheader -->
+
+<div class="section-wrapper">
+    <label class="section-title">Categories</label>
+    <p class="mg-b-20 mg-sm-b-40">A form with a label on top of each form control.</p>
+    <div class="table-responsive">
+        <table class="table mg-b-0">
+            <!-- truyendata -->
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Discription</th>
+                </tr>
+
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <!-- trỏ đến vị trí chỉnh xóa sửa -->
+                        <a asp-controller="Idea" asp-action="Edit" class="btn btn-primary">Edit</a>
+                        <a asp-controller="Idea" asp-action="Delete" class="btn btn-success">Delete</a>
+                        <a asp-controller="Idea" asp-action="Create" class="btn btn-danger">Create</a>
+                    </td>
+                </tr>
+        </table>
+    </div><!-- table-responsive -->
+</div><!-- section-wrapper -->

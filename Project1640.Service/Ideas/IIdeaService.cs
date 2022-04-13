@@ -14,5 +14,6 @@ namespace Project1640.Service.Ideas
         Task<IdeaDto> GetIdeaById(int ideaId);
         Task<int> AddImage(int ideaId, FilesAddRequest request);
         Task<FilesDto> GetFileById(int fileId);
+        Task<List<IdeaDto>> GetAllIdeaBySubId(int subId);
     }
 }

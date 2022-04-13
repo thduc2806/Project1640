@@ -113,6 +113,32 @@ namespace Project1640.Service.Ideas
             };
             return ideaView;
         }
+        public async Task<List<IdeaDto>> GetAllIdeaBySubId(int subId)
+        {
+            var query = from i in _context.Ideas
+                        join s in _context.Submissions on i.SubmissionId equals s.SubmissionId
+                        join c in _context.Categories on i.CategoryId equals c.CategoryId
+                        join u in _context.Users on i.UserId equals u.Id
+                        join f in _context.Files on i.IdeaId equals f.IdeaId
+                        where i.SubmissionId == subId
+                        select new { i, s, c, u, f };
+         
+
+            var data = await query.Select(z => new IdeaDto()
+            {
+                IdeaId = z.i.IdeaId,
+                Content = z.i.Content,
+                Description = z.i.Description,
+                CreatedDate = z.i.CreatedDate,
+                LastModifiedDate = z.i.LastModifiedDate,
+                Title = z.i.Title,
+                FilePath = z.f.FilePath,
+                Category = z.c.Name,
+                Submission = z.s.Name,
+                UserName = z.u.UserName,
+            }).ToListAsync();
+            return data;
+        }
 
         private async Task<string> SaveFile(IFormFile file)
         {
@@ -122,5 +148,5 @@ namespace Project1640.Service.Ideas
             return "/" + USER_CONTENT_FOLDER_NAME + "/" + fileName;
         }
 
-	}
+    }
 }

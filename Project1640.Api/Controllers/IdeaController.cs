@@ -73,6 +73,17 @@ namespace Project1640.Api.Controllers
             return Ok("Update Successed");
 		}
 
+        [HttpGet("{subId}")]
+        public async Task<IActionResult> GetAllIdeaBySubId(int subId)
+        {
+            var idea = await _ideaService.GetAllIdeaBySubId(subId);
+            if (idea == null)
+            {
+                return BadRequest("Can't not find");
+            }
+            return Ok(idea);
+        }
+
         [HttpPost("{ideaId}/files")]
         public async Task<IActionResult> CreateImage(int ideaId, [FromForm] FilesAddRequest request)
         {

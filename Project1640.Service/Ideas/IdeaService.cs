@@ -57,10 +57,10 @@ namespace Project1640.Service.Ideas
             return fileVm;
         }
 
-		public async Task<int> CreateIdea(CreateIdeaRequest request, int subId)
+		public async Task<int> CreateIdea(CreateIdeaRequest request)
         {
 
-            var submission = await _context.Submissions.FirstOrDefaultAsync(s => s.SubmissionId == subId);
+            var submission = await _context.Submissions.FirstOrDefaultAsync(s => s.SubmissionId == request.SubmissionId);
 
             if (submission.ClosureDate <= DateTime.Now)
             {
@@ -73,7 +73,7 @@ namespace Project1640.Service.Ideas
                     LastModifiedDate = DateTime.Now,
                     CategoryId = request.CategoryId,
                     UserId = request.UserId,
-                    SubmissionId = subId,
+                    SubmissionId = request.SubmissionId,
                 };
                 idea.Files = new List<Data.Entities.File>()
                 {

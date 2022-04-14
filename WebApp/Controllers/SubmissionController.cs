@@ -32,18 +32,23 @@ namespace WebApp.Controllers
         }
 
         [HttpGet]
-        public IActionResult CreateIdea()
+        public async Task<IActionResult> CreateIdea(int subId)
         {
-            return View();
+            var sub = await _submissionApi.GetSubById(subId);
+            var idea = new CreateIdeaRequest()
+            {
+                SubmissionId = subId
+            };
+            return View(idea);
         }
 
         [HttpPost]
         [Consumes("multipart/form-data")]
-        public async Task<IActionResult> CreateIdea([FromForm] CreateIdeaRequest request, int subId)
+        public async Task<IActionResult> CreateIdea([FromForm] CreateIdeaRequest request)
 		{
             if (!ModelState.IsValid)
                 return View(request);
-            var result = await _ideaApi.CreateIdea(request, subId);
+            var result = await _ideaApi.CreateIdea(request);
             if (result)
             {
                 TempData["result"] = "Add Success";

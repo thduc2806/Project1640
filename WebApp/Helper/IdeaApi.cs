@@ -27,7 +27,7 @@ namespace WebApp.Helper
             _httpClientFactory = httpClientFactory;
         }
 
-		public async Task<bool> CreateIdea(CreateIdeaRequest request, int subId)
+		public async Task<bool> CreateIdea(CreateIdeaRequest request)
 		{
 			var sessions = _httpContextAccessor
 				.HttpContext
@@ -53,8 +53,14 @@ namespace WebApp.Helper
 				requestContent.Add(new StringContent(request.Content.ToString()), "content");
 				requestContent.Add(new StringContent(request.Description.ToString()), "description");
 				requestContent.Add(new StringContent(string.IsNullOrEmpty(request.Title) ? "" : request.Title.ToString()), "title");
+				requestContent.Add(new StringContent(request.SubmissionId.ToString()), "submissionId");
+				requestContent.Add(new StringContent(request.CategoryId.ToString()), "categoryId");
+				requestContent.Add(new StringContent(request.UserId.ToString()), "userId");
 
-			var response = await client.PostAsync($"/api/idea/submission/{subId}", requestContent);
+
+
+
+			var response = await client.PostAsync($"/api/idea/submission/" + request.SubmissionId, requestContent);
 			return response.IsSuccessStatusCode;
 		}
 

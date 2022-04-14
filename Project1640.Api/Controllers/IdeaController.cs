@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Project1640.Data.EF;
 using Project1640.Data.Entities;
 using Project1640.Dto.Files;
@@ -58,13 +59,19 @@ namespace Project1640.Api.Controllers
         }
 
         [HttpPost("submission/{subId}")]
-        public async Task<IActionResult> CreateIdea([FromForm] CreateIdeaRequest request, int subId)
+        [Consumes("multipart/form-data")]
+        //[Authorize]
+        public async Task<IActionResult> CreateIdea([FromForm] CreateIdeaRequest request,[FromRoute] int subId)
         {
-            var rs = await _ideaService.CreateIdea(request,subId);
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            request.SubmissionId = subId;
+            var rs = await _ideaService.CreateIdea(request);
             if (rs == 0)
                 return BadRequest();
-            var idea = await _ideaService.GetIdeaById(rs);
-            return CreatedAtAction(nameof(GetIdeaById), new { id = rs }, idea);
+            return Ok();
         }
 
         [HttpPut("{id}")]

@@ -10,7 +10,7 @@ namespace WebApp.Helper
 	{
 		Task<List<IdeaDto>> GetAllIdeaBySubId(int subId);
 		Task<IdeaDto> GetIdeaById(int ideaId);
-		Task<bool> CreateIdea(CreateIdeaRequest request, int subId);
+		Task<bool> CreateIdea(CreateIdeaRequest request);
 		Task<List<IdeaDto>> GetAllIdea();
 	}
 }

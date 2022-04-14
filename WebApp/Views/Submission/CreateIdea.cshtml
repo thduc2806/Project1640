@@ -1,0 +1,71 @@
+﻿@model Project1640.Dto.Ideas.CreateIdeaRequest
+@{     
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="slim-pageheader">
+    <ol class="breadcrumb slim-breadcrumb">
+        <!-- trỏ đến vị trí chỉnh xóa sửa -->
+        <li class="breadcrumb-item"><a asp-controller="Home"       asp-action="Index">Home</a></li>
+        <li class="breadcrumb-item"><a asp-controller="Categories" asp-action="Index">Roles</a></li>
+        <li class="breadcrumb-item"><a asp-controller="Categories" asp-action="Index">Edit</a></li>
+        <li class="breadcrumb-item"><a asp-controller="Categories" asp-action="Delete">Delete</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Create</li>
+    </ol>
+    <h6 class="slim-pagetitle">Create</h6>
+</div><!-- slim-pageheader -->
+
+<div class="section-wrapper">
+    <label class="section-title">Create</label>
+    <p class="mg-b-20 mg-sm-b-40">A form with a label on top of each form control.</p>
+    <form asp-action="CreateIdea" enctype="multipart/form-data" method="post">
+        <div class="form-layout">
+            <input asp-for="SubmissionId" type="hidden">
+            <div class="row mg-b-25">
+                <!-- Truyền dữ liệu -->
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="form-control-label">Title: <span class="tx-danger">*</span></label>
+                        <input asp-for="Title" class="form-control" type="text" name="title" value="....." placeholder="Enter Title">
+                    </div>
+                </div><!-- col-4 -->
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="form-control-label">Description: <span class="tx-danger">*</span></label>
+                        <input asp-for="Description" class="form-control" type="text" name="Description" value="....." placeholder="Enter Description">
+                    </div>
+                </div><!-- col-4 -->
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="form-control-label">Content: <span class="tx-danger">*</span></label>
+                        <input asp-for="Content" class="form-control" type="text" name="content" value="....." placeholder="Enter content">
+                    </div>
+                </div><!-- col-4 -->
+                <div class="col-lg-8">
+                    <div class="form-group mg-b-10-force">
+                        <label class="form-control-label">CategoryId: <span class="tx-danger">*</span></label>
+                        <input asp-for="CategoryId" class="form-control" type="text" name="CategoryId" value="....." placeholder="Enter CategoryId">
+                    </div>
+                </div><!-- col-8 -->
+                <div class="col-lg-8">
+                    <div class="form-group mg-b-10-force">
+                        <label class="form-control-label">UserId: <span class="tx-danger">*</span></label>
+                        <input asp-for="UserId" class="form-control" type="text" name="UserId" value="....." placeholder="Enter UserId">
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="form-group mg-b-10-force">
+                        <label class="form-control-label">File: <span class="tx-danger">*</span></label>
+                        <input asp-for="ThumbnailFile" class="form-control" type="file">
+                    </div>
+                </div>
+            </div><!-- row -->
+            <!-- confirm data -->
+            <div class="form-layout-footer">
+                <button type="submit" class="btn btn-primary bd-0">Submit Form</button>
+                <button class="btn btn-secondary bd-0">Cancel</button>
+            </div><!-- form-layout-footer -->
+        </div><!-- form-layout -->
+    </form>
+</div><!-- section-wrapper -->

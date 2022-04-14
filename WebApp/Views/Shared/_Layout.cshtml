@@ -173,7 +173,9 @@
 						}
 						else
 			            {
-                            <span></span>
+                            <form asp-action="Login" asp-controller="Authen">
+                                <button  style="border: none; background-color: white; height: 5px" type="submit">Login</button>
+                            </form>
 			            }
                         <i class="fa fa-angle-down"></i>
                     </a>
@@ -195,7 +197,7 @@
         <div class="container">
             <ul class="nav">
                 <li class="nav-item with-sub active">
-                    <a class="nav-link" asp-controller="Home" asp-action="Index">
+                    <a class="nav-link" asp-controller="Submission" asp-action="Index">
                         <i class="icon ion-ios-home-outline"></i>
                         <span>Home</span>
                     </a>

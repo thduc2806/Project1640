@@ -10,6 +10,6 @@ namespace Project1640.Service.Submissions
     public interface ISubmissionService
     {
         Task<List<SubmissionDto>> GetAllSub();
-        Task<List<SubmissionDto>> GetSubById(int subId);
+        Task<SubmissionDto> GetSubById(int subId);
     }
 }

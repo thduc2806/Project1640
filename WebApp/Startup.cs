@@ -46,6 +46,8 @@ namespace WebApp
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
             });
             services.AddTransient<IUserApi, UserApi>();
+            services.AddTransient<ISubmissionApi, SubmissionApi>();
+            services.AddTransient<IIdeaApi, IdeaApi>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
         }

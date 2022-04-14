@@ -30,21 +30,19 @@ namespace Project1640.Service.Submissions
             return sub;
         }
 
-        public async Task<List<SubmissionDto>> GetSubById(int subId)
+        public async Task<SubmissionDto> GetSubById(int subId)
         {
-            var query = from s in _context.Submissions
-                        where s.SubmissionId == subId
-                        select new { s };
-            var sub = await query.Select(x => new SubmissionDto()
+            var sub = await _context.Submissions.FindAsync(subId);
+            var s =  new SubmissionDto()
             {
-                SubId = x.s.SubmissionId,
-                Name = x.s.Name,
-                Description = x.s.Description,
-                CloseDate = x.s.ClosureDate,
-                FinalClosureDate = x.s.FinalClosureDate,
-            }).ToListAsync();
+                SubId = sub.SubmissionId,
+                Name = sub.Name,
+                Description = sub.Description,
+                CloseDate = sub.ClosureDate,
+                FinalClosureDate = sub.FinalClosureDate,
+            };
 
-            return sub;
+            return s;
         }
     }
 }

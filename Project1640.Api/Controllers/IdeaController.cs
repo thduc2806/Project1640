@@ -23,23 +23,30 @@ namespace Project1640.Api.Controllers
             _context = context;
         }
 
+        //[HttpGet]
+        //public IEnumerable<Idea> GetIdea()
+        //{
+        //    var idea = _context.Ideas.Select(s => new Idea
+        //    {
+        //        IdeaId = s.IdeaId,
+        //        Title = s.Title,
+        //        Description = s.Description,
+        //        CreatedDate = s.CreatedDate,
+        //        LastModifiedDate = s.LastModifiedDate,
+        //        SubmissionId = s.SubmissionId,
+        //        CategoryId = s.CategoryId,
+        //        UserId = s.UserId,
+        //        Files = s.Files,
+        //    }).ToList();
+        //    return idea;
+        //}
+
         [HttpGet]
-        public IEnumerable<Idea> GetIdea()
-        {
-            var idea = _context.Ideas.Select(s => new Idea
-            {
-                IdeaId = s.IdeaId,
-                Title = s.Title,
-                Description = s.Description,
-                CreatedDate = s.CreatedDate,
-                LastModifiedDate = s.LastModifiedDate,
-                SubmissionId = s.SubmissionId,
-                CategoryId = s.CategoryId,
-                UserId = s.UserId,
-                Files = s.Files,
-            }).ToList();
-            return idea;
-        }
+        public async Task<IActionResult> GetAllIdea()
+		{
+            var idea = await _ideaService.GetAllIdea();
+            return Ok(idea);
+		}
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetIdeaById(int id)
@@ -50,10 +57,10 @@ namespace Project1640.Api.Controllers
             return Ok(idea);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CreateIdea([FromForm] CreateIdeaRequest request)
+        [HttpPost("submission/{subId}")]
+        public async Task<IActionResult> CreateIdea([FromForm] CreateIdeaRequest request, int subId)
         {
-            var rs = await _ideaService.CreateIdea(request);
+            var rs = await _ideaService.CreateIdea(request,subId);
             if (rs == 0)
                 return BadRequest();
             var idea = await _ideaService.GetIdeaById(rs);
@@ -73,7 +80,7 @@ namespace Project1640.Api.Controllers
             return Ok("Update Successed");
 		}
 
-        [HttpGet("{subId}")]
+        [HttpGet("submission/{subId}")]
         public async Task<IActionResult> GetAllIdeaBySubId(int subId)
         {
             var idea = await _ideaService.GetAllIdeaBySubId(subId);

@@ -31,18 +31,12 @@ namespace Project1640.Api.Controllers
         }
 
         [HttpGet("{subId}")]
-        public Submission Get(int subId)
+        public async Task<IActionResult> GetSubById(int subId)
         {
-            var sub = _context.Submissions.Select(s => new Submission
-            {
-                SubmissionId = s.SubmissionId,
-                Name = s.Name,
-                Description = s.Description,
-                ClosureDate = s.ClosureDate,
-                FinalClosureDate = s.FinalClosureDate,
-                Ideas = s.Ideas,
-            }).Where(a => a.SubmissionId == subId).FirstOrDefault();
-            return sub;
+            var sub = await _submissionService.GetSubById(subId);
+            if (sub == null)
+                return BadRequest("Can not find");
+            return Ok(sub);
         }
 
         [HttpPost]

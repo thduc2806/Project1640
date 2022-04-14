@@ -62,7 +62,7 @@ namespace WebApp.Controllers
                         userPrincipal,
                         authProperties);
 
-            return RedirectToAction("Privacy", "Home");
+            return RedirectToAction("Index", "Submission");
         }
 
         [HttpPost]

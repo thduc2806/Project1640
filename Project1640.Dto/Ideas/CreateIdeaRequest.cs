@@ -14,7 +14,7 @@ namespace Project1640.Dto.Ideas
         public string Content { get; set; }
         public int CategoryId { get; set; }
         public int UserId { get; set; }
-        public int SubmissionId { get; set; }
+        //public int SubmissionId { get; set; }
 
         public IFormFile ThumbnailFile { get; set; }
 

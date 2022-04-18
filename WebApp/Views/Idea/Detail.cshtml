@@ -1,0 +1,66 @@
+﻿@model Project1640.Dto.Comment.CommentDto
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration;
+
+@{
+    ViewData["Title"] = "Idea";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="slim-pageheader">
+    <ol class="breadcrumb slim-breadcrumb">
+        <li class="breadcrumb-item"><a asp-area="Admin" asp-controller="Submission" asp-action="Index">Submission</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Idea</li>
+    </ol>
+    <h6 class="slim-pagetitle">Idea</h6>
+</div><!-- slim-pageheader -->
+
+<div class="section-wrapper">
+    <label class="section-title">Idea</label>
+    <p class="mg-b-20 mg-sm-b-40">A form with a label on top of each form control.</p>
+    <div class="table-responsive">
+        <h1>@ViewBag.idea.Title</h1>
+        <p>
+            @ViewBag.idea.Description
+        </p>
+        <p>
+            @ViewBag.idea.Content
+        </p>
+        <p>
+            @ViewBag.idea.CreatedDate
+        </p>
+        <p>
+            @ViewBag.idea.LastModifiedDate
+        </p>
+        <p>
+            @ViewBag.idea.UserName
+        </p>
+    <p>
+        @ViewBag.idea.Submission
+    </p>
+        <p>
+            <a href="@(Configuration["BaseAddress"] + ViewBag.idea.FilePath)" download>Download File </a>
+        </p>
+    </div><!-- table-responsive -->
+    <div>
+        <h3>
+            Comment
+        </h3>
+        <div>
+            @foreach (var comment in ViewBag.cmt)
+            {
+                <p>@comment.Content</p>
+            }
+        </div>
+        <form asp-controller="Idea" asp-action="SendReview" method="post">
+            <meta charset="UTF-8">
+            <div>
+                @Html.TextAreaFor(model => model.Content, new { col = 20, rows = 5 })
+            </div>
+            <div>
+                <input type="submit" value="Send" />
+                @Html.HiddenFor(model => model.IdeaId)
+                <input asp-for="UserId" value="1" type="hidden" />
+            </div>
+        </form>
+    </div>
+</div><!-- section-wrapper -->

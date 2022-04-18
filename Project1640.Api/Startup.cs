@@ -26,6 +26,7 @@ using System.Text.Json;
 using Project1640.Service.Ideas;
 using Project1640.Service.Common;
 using Project1640.Service.Submissions;
+using Project1640.Service.Comment;
 
 namespace Project1640.Api
 {
@@ -48,6 +49,7 @@ namespace Project1640.Api
             services.AddTransient<IIdeaService, IdeaService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<ISubmissionService, SubmissionService>();
+            services.AddTransient<ICommentService, CommentService>();
             services.AddTransient<IStorageService, FileStorageService>();
             services.AddSwaggerGen(c =>
             {

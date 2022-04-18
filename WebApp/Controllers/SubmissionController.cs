@@ -32,6 +32,28 @@ namespace WebApp.Controllers
         }
 
         [HttpGet]
+        public IActionResult CreateSub()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> CreateSub([FromForm]SubmissionAddRequest subRequest)
+        {
+            if (!ModelState.IsValid)
+                return View(subRequest);
+            var result = await _submissionApi.CreateSub(subRequest);
+            if (result)
+            {
+                TempData["result"] = "AddSuccess";
+                return RedirectToAction("Index");
+            }
+            ModelState.AddModelError("", "Add Fail");
+            return View(subRequest);
+        }
+
+        [HttpGet]
         public async Task<IActionResult> CreateIdea(int subId)
         {
             var sub = await _submissionApi.GetSubById(subId);
@@ -45,7 +67,7 @@ namespace WebApp.Controllers
         [HttpPost]
         [Consumes("multipart/form-data")]
         public async Task<IActionResult> CreateIdea([FromForm] CreateIdeaRequest request)
-		{
+        {
             if (!ModelState.IsValid)
                 return View(request);
             var result = await _ideaApi.CreateIdea(request);

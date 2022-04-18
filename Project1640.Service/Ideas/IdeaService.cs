@@ -98,6 +98,8 @@ namespace Project1640.Service.Ideas
             var category = await _context.Categories.Where(x => idea.CategoryId == x.CategoryId).FirstOrDefaultAsync();
             var submission = await _context.Submissions.Where(x => idea.SubmissionId == x.SubmissionId).FirstOrDefaultAsync();
             var file = await _context.Files.Where(x => idea.IdeaId == x.IdeaId).FirstOrDefaultAsync();
+            var cmt = await _context.Cmts.Where(x => x.IdeaId == ideaId).FirstOrDefaultAsync();
+            
             var ideaView = new IdeaDto()
             {
                 IdeaId = idea.IdeaId,
@@ -109,6 +111,7 @@ namespace Project1640.Service.Ideas
                 Category = category.Name,
                 UserName = user.UserName,
                 Submission = submission.Name,
+                TextCmt = cmt != null ? cmt.content : "",
                 FilePath = file.FilePath
                 
             };

@@ -10,5 +10,6 @@ namespace WebApp.Helper
 	{
 		Task<List<SubmissionDto>> GetAllSub();
 		Task<SubmissionDto> GetSubById(int subId);
+		Task<bool> CreateSub(SubmissionAddRequest subRequest);
 	}
 }

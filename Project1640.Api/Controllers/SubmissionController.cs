@@ -40,7 +40,8 @@ namespace Project1640.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] SubmissionAddRequest request)
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> CreateSub([FromForm] SubmissionAddRequest request)
         {
             var sub = new Submission()
             {

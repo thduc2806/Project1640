@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Project1640.Dto.Comment;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,6 +19,10 @@ namespace Project1640.Dto.Ideas
         public string Category { get; set; }
         public string Submission { get; set; }
 		public string FilePath { get; set; }
+        public string TextCmt { get; set; }
+        public List<CommentDto> CommentDto { get; set; }
+        public List<string> Cmt { get; set; } = new List<string>();
 
-	}
+
+    }
 }

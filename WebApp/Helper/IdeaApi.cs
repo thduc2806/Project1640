@@ -78,9 +78,9 @@ namespace WebApp.Helper
 			return data;
 		}
 
-		public async Task<IdeaDto> GetIdeaById(int ideaId)
+		public async Task<IdeaDto> GetIdeaById(int id)
 		{
-			var data = await GetAsync<IdeaDto>($"/api/idea/{ideaId}");
+			var data = await GetAsync<IdeaDto>($"/api/idea/{id}");
 
 			return data;
 		}

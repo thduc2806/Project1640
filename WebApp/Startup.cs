@@ -48,6 +48,7 @@ namespace WebApp
             services.AddTransient<IUserApi, UserApi>();
             services.AddTransient<ISubmissionApi, SubmissionApi>();
             services.AddTransient<IIdeaApi, IdeaApi>();
+            services.AddTransient<ICommentApi, CommentApi>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
         }
